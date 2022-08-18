@@ -42,4 +42,71 @@ typedef struct grafo_s {
 }grafo_t;
 
 
+/*Functs*/
 
+//Cria um grafo com v vértices e inicializa as adjacências como NULL
+grafo_t* criaGrafo(int v) {
+	int i;
+
+	grafo_t* grafo= (grafo_t*)malloc(sizeof(grafo_t)); //Aloca espaço para a estrutura grafo
+
+	grafo->count_vertices = v; //Atualiza o número de vértices
+ 	grafo->count_arestas = 0; //Atualiza o número de arestas
+
+	//Alocação dos vértices e das adjacências
+	grafo->vertices = (vertice_t*)malloc(v * sizeof(vertice_t));
+	
+	for (i = 0; i < v; i++)
+		grafo->vertices[i].head = NULL;
+
+	return grafo;
+}
+
+//Cria uma adjacência, dado um vertice e seu peso
+adjacencia_t* criaAdj(int v, int peso)
+{
+	adjacencia_t* temp = (adjacencia_t*)malloc(sizeof(adjacencia_t)); //Aloca o espaço para um nó
+	temp->vertice = v; //Vértice alvo da adjacência
+	temp->peso = peso; //Peso da aresta
+	temp->prox = NULL;
+
+	return temp; //Retorna o endereço da adjacência
+}
+
+//Cria uma aresta conectando os vertices vi e vf com peso peso
+bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
+{
+	if (!grafo) return False; //Checa a existência do grafo
+
+	//Verifica se os valores não são negativos ou maiores que o número de vértice do grafo
+	if ((vf < 0) || (vf >= grafo->vertices || (vi<0))) return False;
+
+	adjacencia_t* novo = criaAdj(vf, peso);
+
+	novo->prox = grafo->vertices[vi].head; // O campo prox da adjacencia recebe a cabeça da lista
+	grafo->vertices[vi].head = novo;
+	grafo->count_arestas++;
+
+	return True;
+}
+
+
+//Imprime os vértices, suas adjacências e pesos
+void imprime(grafo_t* grafo) 
+{
+	int i;
+	printf("Vertices: %d. Arestas: %d. \n", grafo->count_vertices, grafo->count_arestas); //imprime numero de vértice e arestas
+
+	for (i = 0; i < grafo->count_vertices; i++)
+	{
+		printf("v%d: ", i); //Imprimo em qual aresta estou
+		adjacencia_t* ad = grafo->vertices[i].head; //Chama a cabeça da lista de adjacência
+		while (ad != NULL)
+		{
+			printf("v%d(%d) ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
+			ad = ad->prox;
+		}
+		printf("\n");
+	}
+
+}
