@@ -11,6 +11,7 @@
 
 /*Consts*/
 #define SUCCESS 0
+#define PASSAR_DE_ANO 0
 #define True 1
 #define False 0
 
@@ -31,6 +32,7 @@ typedef struct adjacencia_s {
 //Armazena as tarefas (são os vértices)
 typedef struct tarefa_s {
 	const char* nomeTarefa
+    bool ehPai;
 	adjacencia_t* head; 
 }tarefa_t;
 
@@ -40,6 +42,9 @@ typedef struct grafo_s {
 	int countArestas;
 	vertice_t* vertices;
 }grafo_t;
+
+
+/*O índice 0 será reservado para o "Fim de Ano com Sucesso"*/
 
 
 /*Functs*/
@@ -54,9 +59,9 @@ grafo_t* criaGrafo(int v) {
  	grafo->countArestas = 0; //Atualiza o número de arestas
 
 	//Alocação dos vértices e das adjacências
-	grafo->vertices = (vertice_t*)malloc(v * sizeof(vertice_t));
+	grafo->vertices = (vertice_t*)malloc(v * sizeof(vertice_t) + 1); // O +1 é devido ao índice 0 estar reservado ao Fim de Ano
 	
-	for (i = 0; i < v; i++)
+	for (i = 1; i < v; i++)
 		grafo->vertices[i].head = NULL;
 
 	return grafo;
@@ -79,7 +84,7 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 	if (!grafo) return False; //Checa a existência do grafo
 
 	//Verifica se os valores não são negativos ou maiores que o número de vértice do grafo
-	if ((vf < 0) || (vf >= grafo->vertices || (vi<0))) return False;
+	if ((vf < 0) || (vf >= grafo->vertices || (vi<=0))) return False;
 
 	adjacencia_t* novo = criaAdj(vf, peso);
 
@@ -97,7 +102,7 @@ void imprime(grafo_t* grafo)
 	int i;
 	printf("Vertices: %d. Arestas: %d. \n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
 
-	for (i = 0; i < grafo->countVertices; i++)
+	for (i = 1; i < grafo->countVertices; i++)
 	{
 		printf("v%d: ", i); //Imprimo em qual aresta estou
 		adjacencia_t* ad = grafo->vertices[i].head; //Chama a cabeça da lista de adjacência
@@ -108,5 +113,14 @@ void imprime(grafo_t* grafo)
 		}
 		printf("\n");
 	}
+
+}
+
+//Encontra os menores caminhos possíveis das tarefas até passar de ano
+void encontraMenoresCaminhos(grafo_t* grafo)
+{
+    
+
+
 
 }
