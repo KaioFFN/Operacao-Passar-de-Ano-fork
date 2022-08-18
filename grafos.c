@@ -30,14 +30,14 @@ typedef struct adjacencia_s {
 
 //Armazena as tarefas (são os vértices)
 typedef struct tarefa_s {
-	const char* nome_tarefa
+	const char* nomeTarefa
 	adjacencia_t* head; 
 }tarefa_t;
 
 //Tipo grafo, usado para armazenar as tarefas e suas ligações
 typedef struct grafo_s {
-	int count_vertices;
-	int count_arestas;
+	int countVertices;
+	int countArestas;
 	vertice_t* vertices;
 }grafo_t;
 
@@ -50,8 +50,8 @@ grafo_t* criaGrafo(int v) {
 
 	grafo_t* grafo= (grafo_t*)malloc(sizeof(grafo_t)); //Aloca espaço para a estrutura grafo
 
-	grafo->count_vertices = v; //Atualiza o número de vértices
- 	grafo->count_arestas = 0; //Atualiza o número de arestas
+	grafo->countVertices = v; //Atualiza o número de vértices
+ 	grafo->countArestas = 0; //Atualiza o número de arestas
 
 	//Alocação dos vértices e das adjacências
 	grafo->vertices = (vertice_t*)malloc(v * sizeof(vertice_t));
@@ -85,7 +85,7 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 
 	novo->prox = grafo->vertices[vi].head; // O campo prox da adjacencia recebe a cabeça da lista
 	grafo->vertices[vi].head = novo;
-	grafo->count_arestas++;
+	grafo->countArestas++;
 
 	return True;
 }
@@ -95,9 +95,9 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 void imprime(grafo_t* grafo) 
 {
 	int i;
-	printf("Vertices: %d. Arestas: %d. \n", grafo->count_vertices, grafo->count_arestas); //imprime numero de vértice e arestas
+	printf("Vertices: %d. Arestas: %d. \n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
 
-	for (i = 0; i < grafo->count_vertices; i++)
+	for (i = 0; i < grafo->countVertices; i++)
 	{
 		printf("v%d: ", i); //Imprimo em qual aresta estou
 		adjacencia_t* ad = grafo->vertices[i].head; //Chama a cabeça da lista de adjacência
