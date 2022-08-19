@@ -35,18 +35,22 @@ typedef struct aresta_s {
 typedef struct tarefa_s {
 	char* nomeTarefa;
     bool ehPai;
-	aresta_t* cabeca; 
+	aresta_t* cabecaArestas; 
 }tarefa_t;
 
 //Tipo grafo, usado para armazenar as tarefas e suas ligações
 typedef struct grafo_s {
-	int countTarefas;
+	int countVertices;
 	int countArestas;
 	tarefa_t* tarefas;
 }grafo_t;
 
 
-/*O índice 0 será reservado para o "Fim de Ano com Sucesso"*/
+/* 
+O índice 0 será reservado para o "Fim de Ano com Sucesso"
+Portanto, os vértices (tarefas) são contadas a partir do índice 1
+
+*/
 
 
 /*Functs*/
@@ -59,15 +63,18 @@ grafo_t* criaGrafo(int v) {
 
 	v++; // O +1 é devido ao índice 0 estar reservado ao Fim de Ano
 
-	grafo->countTarefas = v; //Atualiza o número de vértices
+	grafo->countVertices = v; //Atualiza o número de vértices
  	grafo->countArestas = 0; //Atualiza o número de arestas
 
 	//Alocação dos vértices e das adjacências
 	grafo->tarefas = (tarefa_t*)malloc(v * sizeof(tarefa_t)); 
 	
 	for (i = 0; i < v; i++)
-		grafo->tarefas[i].cabeca = NULL;
+	{
+		grafo->tarefas[i].cabecaArestas = NULL;
 		grafo->tarefas[i].ehPai = True;
+	}
+
 
 	return grafo;
 }
@@ -89,13 +96,13 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 	if (!grafo) return False; //Checa a existência do grafo
 
 	//Verifica se os valores não são negativos ou maiores que o número de vértice do grafo
-	if ((vf < 0) || (vf >= grafo->countTarefas || (vi<INDICE_INICIAL))) return False;
+	if ((vf < 0) || (vf >= grafo->countVertices || (vi<INDICE_INICIAL))) return False;
 
 	aresta_t* novo = criaAdj(vf, peso);
 
 	//Altera os valores no vértice inicial
-	novo->prox = grafo->tarefas[vi].cabeca; // O campo prox da aresta recebe a cabeça da lista
-	grafo->tarefas[vi].cabeca = novo;
+	novo->prox = grafo->tarefas[vi].cabecaArestas; // O campo prox da aresta recebe a cabeça da lista
+	grafo->tarefas[vi].cabecaArestas = novo;
 	grafo->countArestas++;
 
 	//Altera o campo ehPai no vértice final
@@ -109,12 +116,12 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 void imprimeGrafo(grafo_t* grafo) 
 {
 	int i;
-	printf("Vertices: %d. Arestas: %d. \n", grafo->countTarefas, grafo->countArestas); //imprime numero de vértice e arestas
+	printf("Vertices: %d. Arestas: %d. \n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
 
-	for (i = INDICE_INICIAL; i <= grafo->countTarefas; i++)
+	for (i = 0; i < grafo->countVertices; i++)
 	{
 		printf("v%d: ", i); //Imprimo em qual aresta estou
-		aresta_t* ad = grafo->tarefas[i].cabeca; //Chama a cabeça da lista de adjacência
+		aresta_t* ad = grafo->tarefas[i].cabecaArestas; //Chama a cabeça da lista de adjacência
 		while (ad != NULL)
 		{
 			printf("v%d(%d) ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
@@ -130,8 +137,10 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 {
     int i;
 
-	for(i = INDICE_INICIAL; i<=grafo->countTarefas;i++)
+
+	for(i = INDICE_INICIAL; i<grafo->countVertices;i++)
 	{
+		//Encontra as tarefas pai, ou seja, que não possuem nenhuma dependência, ninguém aponta para elas
 		if(grafo->tarefas[i].ehPai == True)
 		{
 			printf("PAI -> v%dn\n", i);
