@@ -25,24 +25,24 @@
 typedef int bool;
 
 //Armazena os vértices adjacentes
-typedef struct adjacencia_s {
+typedef struct aresta_s {
 	int vertice;
 	int peso;
-	struct adjacencia_s* prox;
-}adjacencia_t; 
+	struct aresta_s* prox;
+}aresta_t; 
 
 //Armazena as tarefas (são os vértices)
 typedef struct tarefa_s {
-	const char* nomeTarefa;
+	char* nomeTarefa;
     bool ehPai;
-	adjacencia_t* head; 
+	aresta_t* cabeca; 
 }tarefa_t;
 
 //Tipo grafo, usado para armazenar as tarefas e suas ligações
 typedef struct grafo_s {
-	int countVertices;
+	int countTarefas;
 	int countArestas;
-	tarefa_t* vertices;
+	tarefa_t* tarefas;
 }grafo_t;
 
 
@@ -59,23 +59,23 @@ grafo_t* criaGrafo(int v) {
 
 	v++; // O +1 é devido ao índice 0 estar reservado ao Fim de Ano
 
-	grafo->countVertices = v; //Atualiza o número de vértices
+	grafo->countTarefas = v; //Atualiza o número de vértices
  	grafo->countArestas = 0; //Atualiza o número de arestas
 
 	//Alocação dos vértices e das adjacências
-	grafo->vertices = (tarefa_t*)malloc(v * sizeof(tarefa_t)); 
+	grafo->tarefas = (tarefa_t*)malloc(v * sizeof(tarefa_t)); 
 	
 	for (i = 0; i < v; i++)
-		grafo->vertices[i].head = NULL;
-		grafo->vertices[i].ehPai = True;
+		grafo->tarefas[i].cabeca = NULL;
+		grafo->tarefas[i].ehPai = True;
 
 	return grafo;
 }
 
 //Cria uma adjacência, dado um vertice e seu peso
-adjacencia_t* criaAdj(int v, int peso)
+aresta_t* criaAdj(int v, int peso)
 {
-	adjacencia_t* temp = (adjacencia_t*)malloc(sizeof(adjacencia_t)); //Aloca o espaço para um nó
+	aresta_t* temp = (aresta_t*)malloc(sizeof(aresta_t)); //Aloca o espaço para um nó
 	temp->vertice = v; //Vértice alvo da adjacência
 	temp->peso = peso; //Peso da aresta
 	temp->prox = NULL;
@@ -89,17 +89,17 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 	if (!grafo) return False; //Checa a existência do grafo
 
 	//Verifica se os valores não são negativos ou maiores que o número de vértice do grafo
-	if ((vf < 0) || (vf >= grafo->countVertices || (vi<INDICE_INICIAL))) return False;
+	if ((vf < 0) || (vf >= grafo->countTarefas || (vi<INDICE_INICIAL))) return False;
 
-	adjacencia_t* novo = criaAdj(vf, peso);
+	aresta_t* novo = criaAdj(vf, peso);
 
 	//Altera os valores no vértice inicial
-	novo->prox = grafo->vertices[vi].head; // O campo prox da adjacencia recebe a cabeça da lista
-	grafo->vertices[vi].head = novo;
+	novo->prox = grafo->tarefas[vi].cabeca; // O campo prox da aresta recebe a cabeça da lista
+	grafo->tarefas[vi].cabeca = novo;
 	grafo->countArestas++;
 
 	//Altera o campo ehPai no vértice final
-	grafo->vertices[vf].ehPai = False;
+	grafo->tarefas[vf].ehPai = False;
 
 	return True;
 }
@@ -109,12 +109,12 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 void imprimeGrafo(grafo_t* grafo) 
 {
 	int i;
-	printf("Vertices: %d. Arestas: %d. \n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
+	printf("Vertices: %d. Arestas: %d. \n", grafo->countTarefas, grafo->countArestas); //imprime numero de vértice e arestas
 
-	for (i = INDICE_INICIAL; i <= grafo->countVertices; i++)
+	for (i = INDICE_INICIAL; i <= grafo->countTarefas; i++)
 	{
 		printf("v%d: ", i); //Imprimo em qual aresta estou
-		adjacencia_t* ad = grafo->vertices[i].head; //Chama a cabeça da lista de adjacência
+		aresta_t* ad = grafo->tarefas[i].cabeca; //Chama a cabeça da lista de adjacência
 		while (ad != NULL)
 		{
 			printf("v%d(%d) ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
@@ -130,9 +130,9 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 {
     int i;
 
-	for(i = INDICE_INICIAL; i<=grafo->countVertices;i++)
+	for(i = INDICE_INICIAL; i<=grafo->countTarefas;i++)
 	{
-		if(grafo->vertices[i].ehPai == True)
+		if(grafo->tarefas[i].ehPai == True)
 		{
 			printf("PAI -> v%dn\n", i);
 		}
