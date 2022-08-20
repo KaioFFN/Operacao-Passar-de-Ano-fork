@@ -17,7 +17,7 @@
 #define PRETO 2 //Todos os vértices adjacentes visitados 
 
 #define INDICE_INICIAL 1
-
+#define INDICE_INEXISTENTE -1
 #define MAX_PESO 10 // O máximo que o peso de uma aresta pode ter
 
 /*Types and structs*/
@@ -44,10 +44,11 @@ typedef struct grafo_s {
 	tarefa_t* tarefas;
 }grafo_t;
 
-//Estrutura usada para o algoritmo de dijkstra
+//Estrutura usada para identificar um caminho possível
 typedef struct caminho_s{
-	int* caminho;
-	int* peso;
+	int* vertices; //Armazena os vértices na ordem do caminho, ex: v0 -> v1 -> v2
+	int* countVertices; // Quantidade de vértices no caminho
+	int peso; //Armazena o peso do caminho
 }caminho_t;
 
 
@@ -84,3 +85,21 @@ void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada);
 
 //Encontra os menores caminhos possíveis das tarefas até passar de ano
 void encontraMenoresCaminhos(grafo_t* grafo);
+
+//Inicializa os vetores para o algoritmo de Dijkstra
+void inicializaDijkstra(grafo_t* grafo, int* distancia, int* precedencia, bool* aberto, int s);
+
+//Função que realiza o relaxamento de um vértice
+void relaxaVertice(grafo_t* grafo, int* distancia, int* precedencia, int u, int v);
+
+//Verifica se existe um vértice aberto no grafo
+bool existeAberto(grafo_t* grafo, int * aberto);
+
+//Retorna o vértice aberto de menor distância
+int verticeMenorDistancia(grafo_t* grafo, int * aberto, int* distancia);
+
+/*
+* Executa o algoritmo de Dijkstra,
+* retorna um vetor int* com as distancias dos vértices em relação ao vértice inicial s
+*/
+int* dijkstra(grafo_t* grafo, int s);

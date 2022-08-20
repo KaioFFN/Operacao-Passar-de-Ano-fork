@@ -16,6 +16,8 @@
 O índice 0 será reservado para o "Fim de Ano com Sucesso"
 Portanto, os vértices (tarefas) são contadas a partir do índice 1*/
 
+/*Qualquer valor maior que INT32_MAX/2 = 1073741823 será considerado INFINITO/IMPOSSÍVEL*/
+
 /*Functs*/
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v) {
@@ -224,3 +226,137 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 }
 
 /*--------------------------------------------------------------------------*/
+/* ======== Algoritmo de Dijkstra ======== */
+/*--------------------------------------------------------------------------*/
+
+void imprimeSituacao(grafo_t* grafo, int* distancia, int* precedencia, bool* aberto)
+{
+	int i;
+	for(i = 0; i < grafo->countVertices; i++)
+	{
+		printf("[%d]-> D = %12d  |  PRE = %2d  |  A = %2d\n", i, distancia[i], precedencia[i], aberto[i]);
+	}
+	printf("\n\n----------------------------------------------------------------------------\n\n");
+}
+
+//Inicializa os vetores para o algoritmo de Dijkstra
+void inicializaDijkstra(grafo_t* grafo, int* distancia, int* precedencia, bool* aberto, int s){
+	int v;
+	for (v = 0; v < grafo->countVertices; v++)
+	{
+		distancia[v] = INT32_MAX/2; //A divisão por 2 evita que ocorra overflow ao analisar o vértice de menor distancia
+		precedencia[v] = INDICE_INEXISTENTE;
+		aberto[v] = True;
+	}
+	distancia[s] = 0;
+}
+
+//Função que realiza o relaxamento de um vértice
+void relaxaVertice(grafo_t* grafo, int* distancia, int* precedencia, int u, int v){
+
+	/*
+	*	u -> vértice que irá relaxar v
+	*	v -> vértice a ser relaxado
+	*/
+
+	aresta_t* ad = grafo->tarefas[u].cabecaArestas;
+
+	//Percorre até encontrar o vértice com o qual u deverá relaxar
+	while(ad && ad->vertice != v)
+		ad = ad->prox;
+
+	if (ad)
+	{
+		//Verifica se o vértice será ou não relaxado
+		if(distancia[v] > distancia[u] + ad->peso)
+		{
+			distancia[v] = distancia[u] + ad->peso;
+			precedencia[v] = u;
+		}
+	}
+}
+
+//Verifica se existe um vértice aberto no grafo
+bool existeAberto(grafo_t* grafo, int * aberto){
+	int i;
+
+	for(i=0;i<grafo->countVertices;i++)
+	{
+		if(aberto[i]) return True;
+	}
+	return False;
+}
+
+//Retorna o vértice aberto de menor distância
+int verticeMenorDistancia(grafo_t* grafo, int * aberto, int* distancia){
+
+
+	int i, menor;
+
+	//Encontra o primeiro vértice aberto
+	for(i=0; i<grafo->countVertices;i++)
+		if(aberto[i]) break;
+
+	//Se não houver vértices abertos retorna INDICE_INEXISTENTE
+	if (i == grafo->countVertices) return INDICE_INEXISTENTE;
+
+	menor = i;
+
+	//Encontra o menor vértice
+	for(i=menor+1; i<grafo->countVertices; i++)
+		if (aberto[i] && (distancia[menor] > distancia[i])) 
+		{
+			menor = i;
+		}
+		
+	return menor;
+}
+
+//A partir dos dados da função dijkstra, essa função extrai o caminho, peso e quantidade de vértices
+caminho_t* extrai_caminho(grafo_t* grafo, int* distancia, int* precedencia){
+
+	caminho_t* caminho = (caminho_t*)malloc(sizeof(caminho_t));
+
+	
+
+
+
+}
+
+
+/*
+* Executa o algoritmo de Dijkstra,
+* retorna um vetor int* com as distancias dos vértices em relação ao vértice inicial s
+*/
+int* dijkstra(grafo_t* grafo, int s){
+	//Declara as variáveis
+	int* distancia = (int*) malloc(grafo->countVertices* sizeof(int));
+	int* precedencia = (int*) malloc(grafo->countVertices* sizeof(int));
+	bool* aberto = (bool*) malloc(grafo->countVertices* sizeof(bool));
+	
+	//Inicializa os valores de Dijkstra
+	inicializaDijkstra(grafo, distancia, precedencia, aberto, s);
+
+
+	while (existeAberto(grafo, aberto))
+	{
+		//Encontra o vértice de menor distância
+		int u = verticeMenorDistancia(grafo, aberto, distancia);
+		
+		aberto[u] = False;
+
+		//Encontra a cabeça do vértice
+		aresta_t* ad = grafo->tarefas[u].cabecaArestas;
+
+		while(ad)
+		{
+			//Relaxa o vértice, se necessário
+			relaxaVertice(grafo, distancia, precedencia, u, ad->vertice);
+			ad = ad->prox;
+		}
+		
+	}
+	return distancia;
+}
+
+

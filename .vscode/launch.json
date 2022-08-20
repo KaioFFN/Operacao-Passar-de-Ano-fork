@@ -7,9 +7,9 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": false,
+      "externalConsole": true,
       "cwd": "/home/rafael/Desktop/Operacao-Passar-de-Ano",
-      "program": "/home/rafael/Desktop/Operacao-Passar-de-Ano/build/Debug/outDebug",
+      "program": "/home/rafael/Desktop/Operacao-Passar-de-Ano/grafo",
       "MIMode": "gdb",
       "miDebuggerPath": "gdb",
       "setupCommands": [
