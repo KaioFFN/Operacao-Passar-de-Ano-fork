@@ -9,18 +9,8 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include <stdint.h>
+#include <time.h>
 #include "grafos.h"
-
-/*Consts*/
-#define SUCCESS 0
-#define PASSAR_DE_ANO 0
-
-
-#define BRANCO 0 //Antes da busca
-#define CINZA 1 //Vértice visitado
-#define PRETO 2 //Todos os vértices adjacentes visitados 
-
-#define INDICE_INICIAL 1
 
 /* 
 O índice 0 será reservado para o "Fim de Ano com Sucesso"
@@ -110,25 +100,111 @@ void imprimeGrafo(grafo_t* grafo)
 }
 
 /*--------------------------------------------------------------------------*/
+/* ======== Funções de matriz ======== */
+/*--------------------------------------------------------------------------*/
 
+// Cria uma matriz de altura alt e largura larg
+int** mat_cria(int** matriz, int alt, int larg) 
+{
+	// Alocando
+    matriz = (int**) malloc (sizeof(int*) * alt); // A matriz precisa ser declarada antes da função, mas não alocada
+    for (int i=0; i<larg; i++) {
+        matriz[i] = (int*) malloc (sizeof(int) * larg);
+    }
 
+	// Inicializando todos os pontos da matriz como 0
+    for (int i=0; i<alt; i++) {
+        for (int j=0; j<larg; j++) {
+            matriz[i][j] = 0;
+        }
+    }
 
+    return matriz;
+}
 
+/*--------------------------------------------------------------------------*/
 
+// Insere um número numa matriz. Se não for usar peso, coloca peso=1
+void mat_insere(int** matriz, int v1, int v2, bool orientada, int peso) 
+{
+    matriz[v1][v2] = peso;
+    if(!orientada) {
+        matriz[v2][v1] = peso;
+    }
+}
 
+/*--------------------------------------------------------------------------*/
 
+// Imprime uma matriz
+void mat_imprime(int** matriz, int larg, int alt) 
+{
+    printf("    ");
+    for (int i=0; i<larg; i++) { // Imprimir números em cima
+        printf("%i  ", i);
+    }
+    printf("\n  ");
+    for (int i=0; i<larg; i++) { // Imprimir margem em cima
+        printf("---");
+    }
+    printf("\n");
 
+    for(int i=0; i<alt; i++) {
+        printf("%i | ", i); // Imprimir margem do lado
 
+        for(int j=0; j<larg; j++) { // Imprimir números da matriz
+            printf("%i  ", matriz[i][j]);
+        }
+        printf("\n");
+    }
+}
 
+/*--------------------------------------------------------------------------*/
 
+// Libera uma matriz quadrada
+void mat_libera(int** matriz, int alt) 
+{ 
+    for(int i=0; i<alt; i++) {
+        free(matriz[i]);
+    }
+    free(matriz);
+}
 
+/*--------------------------------------------------------------------------*/
+/* ======== Funções de encher grafo ======== */
+/*--------------------------------------------------------------------------*/
 
+// Conecta um vértice com todos os outros, com algumas 'falhas de conexão' aleatórias
+void completaGrafo(grafo_t* grafo, int countVertices, int indice, int **falhas) 
+{
+    for(int i=0; i<countVertices; i++) {
+        if (!falhas[indice][i] && i != indice) { // Se um dos vértices tem o outro como falha, não cria a aresta. Também não cria arestas que ligam um vértice a si mesmo
+            criaAresta (grafo, indice, i, (rand() % MAX_PESO)+1); // O peso da aresta é determinado aleatoriamente, no mínimo 1 e no máximo MAX_PESO
+        }													  	  // rand() % N retorna um número aleatório de 0 a N
+    }
+}
 
+/*--------------------------------------------------------------------------*/
 
+// Faz lAdj_completa com um grafo inteiro
+void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada) 
+{ 
+    int **matFalhas;
+    matFalhas = mat_cria (matFalhas, tamanho, tamanho);
 
+    for (int i=0; i<tamanho; i++) { // Coloca um número de falhas igual a numFalhas pra cada vértice do grafo
+        for (int j=0; j<numFalhas; j++) {
+            mat_insere(matFalhas, i, rand() % tamanho, orientada, True); // Determina as falhas de conexão aleatoriamente e guarda elas numa matriz.
+        }																 // rand() % N retorna um número aleatório de 0 a N			 
+    }
+    for (int i=0; i<tamanho; i++) {
+        completaGrafo(grafo, tamanho, i, matFalhas);
+    }
+    mat_imprime (matFalhas, tamanho, tamanho); // Imprime a matriz de falhas pra motivos de debug
 
+    mat_libera (matFalhas, tamanho); // Libera a matriz de falhas
+}
 
-
+/*--------------------------------------------------------------------------*/
 
 //Encontra os menores caminhos possíveis das tarefas até passar de ano
 void encontraMenoresCaminhos(grafo_t* grafo)
