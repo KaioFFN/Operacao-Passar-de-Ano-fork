@@ -3,9 +3,8 @@ TARGET = grafo
 all:
 	make compilar
 
-compilar: grafos.c
-	gcc -o $(TARGET) grafos.c
-
+compilar: main.c grafos.c grafos.h
+	gcc -o $(TARGET) main.c grafos.c grafos.h
 run:
 	./$(TARGET)
 

@@ -8,12 +8,13 @@
 /*Includes*/
 #include <stdio.h>
 #include <stdlib.h>
+#include <stdint.h>
+#include "grafos.h"
 
 /*Consts*/
 #define SUCCESS 0
 #define PASSAR_DE_ANO 0
-#define True 1
-#define False 0
+
 
 #define BRANCO 0 //Antes da busca
 #define CINZA 1 //Vértice visitado
@@ -21,40 +22,11 @@
 
 #define INDICE_INICIAL 1
 
-/*Types and structs*/
-typedef int bool;
-
-//Armazena os vértices adjacentes
-typedef struct aresta_s {
-	int vertice;
-	int peso;
-	struct aresta_s* prox;
-}aresta_t; 
-
-//Armazena as tarefas (são os vértices)
-typedef struct tarefa_s {
-	char* nomeTarefa;
-    bool ehPai;
-	aresta_t* cabecaArestas; 
-}tarefa_t;
-
-//Tipo grafo, usado para armazenar as tarefas e suas ligações
-typedef struct grafo_s {
-	int countVertices;
-	int countArestas;
-	tarefa_t* tarefas;
-}grafo_t;
-
-
 /* 
 O índice 0 será reservado para o "Fim de Ano com Sucesso"
-Portanto, os vértices (tarefas) são contadas a partir do índice 1
-
-*/
-
+Portanto, os vértices (tarefas) são contadas a partir do índice 1*/
 
 /*Functs*/
-
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v) {
 	int i;
@@ -79,6 +51,8 @@ grafo_t* criaGrafo(int v) {
 	return grafo;
 }
 
+/*--------------------------------------------------------------------------*/
+
 //Cria uma adjacência, dado um vertice e seu peso
 aresta_t* criaAdj(int v, int peso)
 {
@@ -89,6 +63,8 @@ aresta_t* criaAdj(int v, int peso)
 
 	return temp; //Retorna o endereço da adjacência
 }
+
+/*--------------------------------------------------------------------------*/
 
 //Cria uma aresta conectando os vertices vi e vf com peso peso
 bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
@@ -111,6 +87,7 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 	return True;
 }
 
+/*--------------------------------------------------------------------------*/
 
 //Imprime os vértices, suas adjacências e pesos
 void imprimeGrafo(grafo_t* grafo) 
@@ -132,15 +109,37 @@ void imprimeGrafo(grafo_t* grafo)
 
 }
 
+/*--------------------------------------------------------------------------*/
+
+
+dijkstra
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 //Encontra os menores caminhos possíveis das tarefas até passar de ano
 void encontraMenoresCaminhos(grafo_t* grafo)
 {
     int i;
-
+	static uint32_t tamMenorCaminho = UINT32_MAX;
+	
 
 	for(i = INDICE_INICIAL; i<grafo->countVertices;i++)
 	{
-		//Encontra as tarefas pai, ou seja, que não possuem nenhuma dependência, ninguém aponta para elas
+		//Encontra as tarefas pai, ou seja, que não possuem nenhuma dependência pois ninguém aponta para elas
 		if(grafo->tarefas[i].ehPai == True)
 		{
 			printf("PAI -> v%dn\n", i);
@@ -148,20 +147,4 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 	}
 }
 
-
-int main (int argc, char ** agv){
-
-	bool tmp;
-	grafo_t* grafo = criaGrafo(5);
-
-	tmp = criaAresta(grafo, 1, 3, 2);
-	tmp = criaAresta(grafo, 3, 2, 2);
-	tmp = criaAresta(grafo, 2, 4, 2);
-	tmp = criaAresta(grafo, 4, 0, 2);
-
-	imprimeGrafo(grafo);
-
-	encontraMenoresCaminhos(grafo);
-
-	return SUCCESS;
-}
+/*--------------------------------------------------------------------------*/
