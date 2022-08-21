@@ -220,10 +220,19 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 		//Encontra as tarefas pai, ou seja, que não possuem nenhuma dependência pois ninguém aponta para elas
 		if(grafo->tarefas[i].ehPai == True)
 		{
-			printf("PAI -> v%dn\n", i);
+			caminho_t* caminho = dijkstra(grafo, i);
+			printf("PAI -> v%d\n", i);
+			imprimeCaminho(caminho);
+			printf("\n\n");
 		}
 	}
 }
+
+
+
+
+
+
 
 /*--------------------------------------------------------------------------*/
 /* ======== Algoritmo de Dijkstra ======== */

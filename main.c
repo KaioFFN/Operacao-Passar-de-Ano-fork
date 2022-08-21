@@ -16,8 +16,8 @@
 /*Consts*/
 #define SUCCESS 0
 
-#define TAM_GRAFO 9
-#define NUM_FALHAS 9 // É bom fazer NUM_FALHAS ser bem próximo de TAM_GRAFO, pra ter um núnero bom de vértices pais
+#define TAM_GRAFO 5
+#define NUM_FALHAS 4 // É bom fazer NUM_FALHAS ser bem próximo de TAM_GRAFO, pra ter um núnero bom de vértices pais
 
 
 /*Functs*/
@@ -35,13 +35,14 @@ void imprimeDistancias(grafo_t* grafo, int* distancia){
 
 int main (int argc, char ** argv){
 	bool tmp;
-	//grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
+	grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
 
-	//srand(time(NULL));
+	srand(time(NULL));
 
-	//encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
+	encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
 
-	grafo_t* grafo = criaGrafo(4);
+/*
+	grafo_t* grafo = criaGrafo(5);
 
 	(void)criaAresta(grafo, 1, 2, 2);
 
@@ -52,11 +53,11 @@ int main (int argc, char ** argv){
 
 	(void)criaAresta(grafo, 3, 0, 1);
 
+*/
 	imprimeGrafo(grafo);
 	printf("\n\n");
 
-	caminho_t* caminho = dijkstra(grafo, 1);
-	imprimeCaminho(caminho);
+	encontraMenoresCaminhos(grafo);
 
 	return SUCCESS;
 
