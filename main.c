@@ -33,42 +33,30 @@ void imprimeDistancias(grafo_t* grafo, int* distancia){
 }
 
 
-
 int main (int argc, char ** argv){
 	bool tmp;
-	grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
+	//grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
 
-	srand(time(NULL));
+	//srand(time(NULL));
 
-	encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
+	//encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
 
-	//grafo_t* grafo = criaGrafo(8);
+	grafo_t* grafo = criaGrafo(4);
 
-/*
 	(void)criaAresta(grafo, 1, 2, 2);
-	(void)criaAresta(grafo, 1, 4, 1);
 
 	(void)criaAresta(grafo, 2, 3, 8);
+	(void)criaAresta(grafo, 2, 4, 3);
 
-	(void)criaAresta(grafo, 4, 1, 5);
-	(void)criaAresta(grafo, 4, 2, 9);
-	(void)criaAresta(grafo, 4, 5, 5);
-	(void)criaAresta(grafo, 4, 6, 1);
+	(void)criaAresta(grafo, 4, 0, 1);
 
-	(void)criaAresta(grafo, 5, 2, 1);
-	(void)criaAresta(grafo, 5, 3, 5);
-
-	(void)criaAresta(grafo, 6, 5, 3);
-	(void)criaAresta(grafo, 6, 7, 1);
-
-	(void)criaAresta(grafo, 7, 5, 1);
-*/
+	(void)criaAresta(grafo, 3, 0, 1);
 
 	imprimeGrafo(grafo);
 	printf("\n\n");
 
-	int* distancia = dijkstra(grafo, 1);
-	imprimeDistancias(grafo, distancia);
+	caminho_t* caminho = dijkstra(grafo, 1);
+	imprimeCaminho(caminho);
 
 	return SUCCESS;
 

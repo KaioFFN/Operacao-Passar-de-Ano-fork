@@ -244,7 +244,7 @@ void inicializaDijkstra(grafo_t* grafo, int* distancia, int* precedencia, bool* 
 	int v;
 	for (v = 0; v < grafo->countVertices; v++)
 	{
-		distancia[v] = INT32_MAX/2; //A divisão por 2 evita que ocorra overflow ao analisar o vértice de menor distancia
+		distancia[v] = IMPOSSIVEL; //A divisão por 2 evita que ocorra overflow ao analisar o vértice de menor distancia
 		precedencia[v] = INDICE_INEXISTENTE;
 		aberto[v] = True;
 	}
@@ -312,15 +312,52 @@ int verticeMenorDistancia(grafo_t* grafo, int * aberto, int* distancia){
 	return menor;
 }
 
-//A partir dos dados da função dijkstra, essa função extrai o caminho, peso e quantidade de vértices
-caminho_t* extrai_caminho(grafo_t* grafo, int* distancia, int* precedencia){
+//A partir dos dados da função dijkstra, essa função extrai o caminho, peso e quantidade de vértices do vértice v até PASSAR_DE_ANO
+caminho_t* extraiCaminho(grafo_t* grafo, int* distancia, int* precedencia, int v, int s){
 
+	//Aloca a estrutura caminho
 	caminho_t* caminho = (caminho_t*)malloc(sizeof(caminho_t));
+	int *verticesCaminhoInverso;
 
-	
+	//Verifica se existe um caminho de v até PASSAR_DE_ANO
+	if(distancia[PASSAR_DE_ANO] < IMPOSSIVEL)
+	{	
+		int i = 0;
+		int n = v;
+		int j, count;
 
+		caminho->peso = distancia[PASSAR_DE_ANO];
+		//Aloca 
+		verticesCaminhoInverso = (int*) malloc(grafo->countVertices * sizeof(int));
+		
+		verticesCaminhoInverso[i] = n;
+		do{	
+			i++;	
+			n = precedencia[n];
+			verticesCaminhoInverso[i] = n;
+		}while (n != s);
 
+		//Salva a contagem de vértices
+		count = i + 1;
+		caminho->countVertices = count;
 
+		//Aloca um vetor para guardar os vértices do caminho
+		caminho->vertices = (int*)malloc(count * sizeof(int));
+		
+		//Escreve o caminho na ordem correta
+		for(i = 0, j = count - 1; i<count; i++, j--)
+				caminho->vertices[i] = verticesCaminhoInverso[j];
+	}
+	else
+	{
+		caminho->peso = IMPOSSIVEL;
+		caminho->countVertices = IMPOSSIVEL;
+		caminho->vertices = NULL;
+	}
+
+	free(verticesCaminhoInverso);
+
+	return caminho;
 }
 
 
@@ -328,7 +365,7 @@ caminho_t* extrai_caminho(grafo_t* grafo, int* distancia, int* precedencia){
 * Executa o algoritmo de Dijkstra,
 * retorna um vetor int* com as distancias dos vértices em relação ao vértice inicial s
 */
-int* dijkstra(grafo_t* grafo, int s){
+caminho_t* dijkstra(grafo_t* grafo, int s){
 	//Declara as variáveis
 	int* distancia = (int*) malloc(grafo->countVertices* sizeof(int));
 	int* precedencia = (int*) malloc(grafo->countVertices* sizeof(int));
@@ -356,7 +393,28 @@ int* dijkstra(grafo_t* grafo, int s){
 		}
 		
 	}
-	return distancia;
+
+
+	return extraiCaminho(grafo, distancia, precedencia, PASSAR_DE_ANO, s);
 }
 
+//Imprime o caminho e seus atributos
+void imprimeCaminho(caminho_t* caminho){
 
+	int i;
+
+	if (caminho->peso >= IMPOSSIVEL) printf("\nCaminho Impossivel\n");
+	else
+	{
+		printf("countVertices = %d\n", caminho->countVertices);
+		printf("Peso = %d\n", caminho->peso);
+
+		
+		for(i =0 ;i<caminho->countVertices;i++)
+			if (caminho->vertices[i] == 0) 
+				printf("v%d\n\n", caminho->vertices[i]);
+			else
+				printf("v%d -> ", caminho->vertices[i]);
+	}
+
+}

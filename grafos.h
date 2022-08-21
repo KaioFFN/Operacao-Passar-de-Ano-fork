@@ -19,6 +19,7 @@
 #define INDICE_INICIAL 1
 #define INDICE_INEXISTENTE -1
 #define MAX_PESO 10 // O máximo que o peso de uma aresta pode ter
+#define IMPOSSIVEL (INT32_MAX/2)
 
 /*Types and structs*/
 typedef int bool;
@@ -47,7 +48,7 @@ typedef struct grafo_s {
 //Estrutura usada para identificar um caminho possível
 typedef struct caminho_s{
 	int* vertices; //Armazena os vértices na ordem do caminho, ex: v0 -> v1 -> v2
-	int* countVertices; // Quantidade de vértices no caminho
+	int countVertices; // Quantidade de vértices no caminho
 	int peso; //Armazena o peso do caminho
 }caminho_t;
 
@@ -98,8 +99,14 @@ bool existeAberto(grafo_t* grafo, int * aberto);
 //Retorna o vértice aberto de menor distância
 int verticeMenorDistancia(grafo_t* grafo, int * aberto, int* distancia);
 
+//A partir dos dados da função dijkstra, essa função extrai o caminho, peso e quantidade de vértices do vértice v até PASSAR_DE_ANO
+caminho_t* extraiCaminho(grafo_t* grafo, int* distancia, int* precedencia, int v, int s);
+
 /*
 * Executa o algoritmo de Dijkstra,
 * retorna um vetor int* com as distancias dos vértices em relação ao vértice inicial s
 */
-int* dijkstra(grafo_t* grafo, int s);
+caminho_t* dijkstra(grafo_t* grafo, int s);
+
+//Imprime o caminho e seus atributos
+void imprimeCaminho(caminho_t* caminho);
