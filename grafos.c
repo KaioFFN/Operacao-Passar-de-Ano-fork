@@ -175,6 +175,54 @@ void mat_libera(int** matriz, int alt)
 /* ======== Funções de encher grafo ======== */
 /*--------------------------------------------------------------------------*/
 
+// Checa se uma coluna está cheia
+bool colunaCheia(int** matriz, int tamanho, int coluna)
+{
+	bool cheia = True;
+	for (int i=0; i<tamanho; i++) {
+		cheia *= matriz[i][coluna]; // Se algum dos valores da coluna for 0, 'cheia' vai virar 0 e não vai voltar a ser 1
+	}
+
+	return cheia;
+}
+
+/*--------------------------------------------------------------------------*/
+
+// Transforma todos os valores de uma coluna em 1
+void encheColuna(int** matriz, int tamanho, int coluna) 
+{
+	for (int i=0; i<tamanho; i++) {
+		matriz[i][coluna] = 1;
+	}
+}
+
+/*--------------------------------------------------------------------------*/
+
+// Conta quantos vértices-pai existem num grafo e ajusta o número se for pequeno demais
+int consertaPais(int** matriz, int tamanho) 
+{
+	bool* pais = (bool*) malloc (sizeof(bool) * tamanho); // Cria um vetor pra guardar quais vértices são pais 
+	int numPais = 0;
+
+	for (int i=0; i<tamanho; i++) { // Vê que vértices são pais e guarda no vetor
+		pais[i] = colunaCheia(matriz, tamanho, i);
+		numPais += pais[i];
+	}
+
+	while (numPais < MIN_PAIS) {
+		int coluna = rand()%tamanho;
+		if (!pais[coluna]) { // Só aumenta o número de pais se a coluna sorteada já não for um pai
+			encheColuna(matriz, tamanho, coluna);
+			pais[coluna] = True;
+			numPais++;
+		}
+	}
+
+	free(pais);
+}
+
+/*--------------------------------------------------------------------------*/
+
 // Conecta um vértice com todos os outros, com algumas 'falhas de conexão' aleatórias
 void completaGrafo(grafo_t* grafo, int countVertices, int indice, int **falhas) 
 {
@@ -198,6 +246,9 @@ void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada)
             mat_insere(matFalhas, i, rand() % tamanho, orientada, True); // Determina as falhas de conexão aleatoriamente e guarda elas numa matriz.
         }																 // rand() % N retorna um número aleatório de 0 a N			 
     }
+
+	consertaPais(matFalhas, tamanho);
+
     for (int i=0; i<tamanho; i++) {
         completaGrafo(grafo, tamanho, i, matFalhas);
     }
