@@ -286,10 +286,8 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 		}
 	}
 	// Aqui imprime o menor camilho encontrado 
-	printf("O menor caminho é o saindo vo v%d:" , menor->paimenor);
-	printf("passando pelo caminho");
+	printf("O menor caminho e o saindo do v%d:\n" , menor->paimenor);
 	imprimeCaminho(menor->menorcaminho);
-	printf("Com o peso de %d" , menor->menorpeso);
 }
 
 /*--------------------------------------------------------------------------*/
