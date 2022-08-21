@@ -16,8 +16,8 @@
 /*Consts*/
 #define SUCCESS 0
 
-#define TAM_GRAFO 5
-#define NUM_FALHAS 4 // É bom fazer NUM_FALHAS ser bem próximo de TAM_GRAFO, pra ter um núnero bom de vértices pais
+#define TAM_GRAFO 9
+#define NUM_FALHAS 9 // É bom fazer NUM_FALHAS ser bem próximo de TAM_GRAFO, pra ter um núnero bom de vértices pais
 
 
 /*Functs*/
