@@ -53,7 +53,14 @@ typedef struct caminho_s{
 	int peso; //Armazena o peso do caminho
 }caminho_t;
 
+// Estrutura para saber qual é o menor caminho que leva menos tempo
+typedef struct menorcaminho_s 
+{
+	int paimenor;
+	int menorpeso;
+	int* menorcaminho;
 
+}menorcaminho_t;
 /*Functs*/
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v);

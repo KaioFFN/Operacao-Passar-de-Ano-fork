@@ -264,26 +264,33 @@ void encontraMenoresCaminhos(grafo_t* grafo)
 {
     int i;
 	static uint32_t tamMenorCaminho = UINT32_MAX;
+	menorcaminho_t* menor = malloc(sizeof(menorcaminho_t));
+	menor->menorpeso = INT32_MAX;
 	
-
 	for(i = INDICE_INICIAL; i<grafo->countVertices;i++)
 	{
 		//Encontra as tarefas pai, ou seja, que não possuem nenhuma dependência pois ninguém aponta para elas
 		if(grafo->tarefas[i].ehPai == True)
 		{
+			
 			caminho_t* caminho = dijkstra(grafo, i);
+			if (menor->menorpeso > caminho->peso)
+			{
+				menor->menorpeso = caminho->peso;
+				menor->paimenor = i;
+				menor->menorcaminho = dijkstra(grafo, menor->paimenor);
+			}
 			printf("PAI -> v%d\n", i);
 			imprimeCaminho(caminho);
-			printf("\n\n");
+			printf("\n\n");	
 		}
 	}
+	// Aqui imprime o menor camilho encontrado 
+	printf("O menor caminho é o saindo vo v%d:" , menor->paimenor);
+	printf("passando pelo caminho");
+	imprimeCaminho(menor->menorcaminho);
+	printf("Com o peso de %d" , menor->menorpeso);
 }
-
-
-
-
-
-
 
 /*--------------------------------------------------------------------------*/
 /* ======== Algoritmo de Dijkstra ======== */
