@@ -19,6 +19,7 @@
 #define INDICE_INICIAL 1
 #define INDICE_INEXISTENTE -1
 #define MAX_PESO 10 // O máximo que o peso de uma aresta pode ter
+#define MIN_PAIS 3
 #define IMPOSSIVEL (INT32_MAX/2)
 
 /*Types and structs*/
@@ -77,6 +78,21 @@ void mat_imprime(int** matriz, int larg, int alt);
 
 // Libera uma matriz quadrada
 void mat_libera(int** matriz, int alt);
+
+// Conecta um vértice com todos os outros, com algumas 'falhas de conexão' aleatórias
+void completaGrafo(grafo_t* grafo, int countVertices, int indice, int **falhas);
+
+// Faz lAdj_completa com um grafo inteiro
+void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada);
+
+// Checa se uma coluna está cheia
+bool colunaCheia(int** matriz, int tamanho, int coluna);
+
+// Transforma todos os valores de uma coluna em 1
+void encheColuna(int** matriz, int tamanho, int coluna);
+
+// Conta quantos vértices-pai existem num grafo e ajusta o número se for pequeno demais
+int consertaPais(int** matriz, int tamanho);
 
 // Conecta um vértice com todos os outros, com algumas 'falhas de conexão' aleatórias
 void completaGrafo(grafo_t* grafo, int countVertices, int indice, int **falhas);
