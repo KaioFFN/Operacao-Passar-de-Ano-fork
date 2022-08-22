@@ -1,7 +1,7 @@
 /**
 * @file: grafos.c
 * @brief: Funções para criação e manipulação de grafos
-* @author: cHUPA CU
+* @author: Grupo
 * @date: 17-08-2022
 */
 

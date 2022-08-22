@@ -1,7 +1,7 @@
 /**
 * @file: main
 * @brief: Arquivo principal trabalho de grafos
-* @author: cHUPA CU
+* @author: Grupo
 * @date: 19-08-2022
 */
 
