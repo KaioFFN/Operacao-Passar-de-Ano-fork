@@ -1,9 +1,17 @@
 /**
-* @file: grafos.h
+* @file: OperacaoPassarDeAno.h
 * @brief: Protótipos de funções para criação e manipulação de grafos
 * @author: Grupo
 * @date: 17-08-2022
 */
+
+/*Includes*/
+#include <stdio.h>
+#include <stdlib.h>
+#include <stdint.h>
+#include <time.h>
+#include <string.h>
+#include <ctype.h>
 
 /*Consts*/
 #define True 1
@@ -23,6 +31,10 @@
 #define IMPOSSIVEL (INT32_MAX/2)
 
 #define LIMITE_DE_CAMINHOS 100
+
+#define TAM_GRAFO 9
+#define NUM_FALHAS 9 // É bom fazer NUM_FALHAS ser bem próximo de TAM_GRAFO, pra ter um núnero bom de vértices pais
+
 
 /*Types and structs*/
 typedef int bool;
@@ -127,3 +139,9 @@ caminho_t* dijkstra(grafo_t* grafo, int s);
 
 //Imprime o caminho e seus atributos
 void imprimeCaminho(caminho_t* caminho);
+
+//Imprime os menores caminhos até o fim do ano
+void imprimeMenoresCaminhos(grafo_t* grafo);
+
+//Imprime um menu e retorna a chave inserida
+int imprimeMenu(int chave);

@@ -6,11 +6,7 @@
 */
 
 /*Includes*/
-#include <stdio.h>
-#include <stdlib.h>
-#include <stdint.h>
-#include <time.h>
-#include "grafos.h"
+#include "OperacaoPassarDeAno.h"
 
 /* 
 O índice 0 será reservado para o "Fim de Ano com Sucesso"
