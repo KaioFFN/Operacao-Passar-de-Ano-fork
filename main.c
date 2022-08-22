@@ -12,7 +12,6 @@
 #include <time.h>
 #include "grafos.h"
 
-
 /*Consts*/
 #define SUCCESS 0
 
@@ -22,16 +21,35 @@
 
 /*Functs*/
 
-void imprimeDistancias(grafo_t* grafo, int* distancia){
+//Imprime os menores caminhos até o fim do ano
+void imprimeMenoresCaminhos(grafo_t* grafo){
+    //Encontra os menores caminhos
+    caminho_t** vetCaminhos = encontraMenoresCaminhos(grafo);
 
-	int i;
+    int i;
 
-	for(i = 0; i < grafo->countVertices; i++)
+    printf("|----------------------------------------------------------------------------------------------------|\n");
+    printf("|                               Menores Caminhos ate Passar de Ano                                   |\n");
+    printf("|----------------------------------------------------------------------------------------------------|\n");
+
+	if(vetCaminhos[0] == NULL)
 	{
-		printf("[%d] -> %d\n", i, distancia[i]);
+		printf("Nenhum caminho possivel -> Voce vai bombar!\n\n");
 	}
-}
+	else
+	{
+		for(i=0;vetCaminhos[i] != NULL; i++)
+		{
+			printf("--------------------------------------------------------\n");
+			imprimeCaminho(vetCaminhos[i]);
+			printf("--------------------------------------------------------\n");
+		}
+    
+	}
 
+    printf("\n\n");
+
+}
 
 int main (int argc, char ** argv){
 	bool tmp;
@@ -40,7 +58,6 @@ int main (int argc, char ** argv){
 	srand(time(NULL));
 
 	encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
-
 /*
 	grafo_t* grafo = criaGrafo(5);
 
@@ -57,7 +74,7 @@ int main (int argc, char ** argv){
 	imprimeGrafo(grafo);
 	printf("\n\n");
 
-	encontraMenoresCaminhos(grafo);
+	imprimeMenoresCaminhos(grafo);
 
 	return SUCCESS;
 

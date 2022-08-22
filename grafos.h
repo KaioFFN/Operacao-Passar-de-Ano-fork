@@ -22,6 +22,8 @@
 #define MIN_PAIS 3
 #define IMPOSSIVEL (INT32_MAX/2)
 
+#define LIMITE_DE_CAMINHOS 100
+
 /*Types and structs*/
 typedef int bool;
 
@@ -53,14 +55,6 @@ typedef struct caminho_s{
 	int peso; //Armazena o peso do caminho
 }caminho_t;
 
-// Estrutura para saber qual é o menor caminho que leva menos tempo
-typedef struct menorcaminho_s 
-{
-	int paimenor;
-	int menorpeso;
-	int* menorcaminho;
-
-}menorcaminho_t;
 /*Functs*/
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v);
@@ -107,8 +101,8 @@ void completaGrafo(grafo_t* grafo, int countVertices, int indice, int **falhas);
 // Faz lAdj_completa com um grafo inteiro
 void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada);
 
-//Encontra os menores caminhos possíveis das tarefas até passar de ano
-void encontraMenoresCaminhos(grafo_t* grafo);
+// Encontra os menores caminhos para passar de ano, retorna um caminho_t**, com caminhos válidos até o primeiro índice com valor NULL
+caminho_t** encontraMenoresCaminhos(grafo_t* grafo);
 
 //Inicializa os vetores para o algoritmo de Dijkstra
 void inicializaDijkstra(grafo_t* grafo, int* distancia, int* precedencia, bool* aberto, int s);

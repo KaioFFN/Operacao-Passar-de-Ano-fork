@@ -101,6 +101,11 @@ void imprimeGrafo(grafo_t* grafo)
 
 }
 
+
+
+
+
+
 /*--------------------------------------------------------------------------*/
 /* ======== Funções de matriz ======== */
 /*--------------------------------------------------------------------------*/
@@ -170,6 +175,8 @@ void mat_libera(int** matriz, int alt)
     }
     free(matriz);
 }
+
+
 
 /*--------------------------------------------------------------------------*/
 /* ======== Funções de encher grafo ======== */
@@ -259,36 +266,54 @@ void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada)
 
 /*--------------------------------------------------------------------------*/
 
-//Encontra os menores caminhos possíveis das tarefas até passar de ano
-void encontraMenoresCaminhos(grafo_t* grafo)
+
+// Encontra os menores caminhos para passar de ano, retorna um caminho_t**, com caminhos válidos até o primeiro índice com valor NULL
+caminho_t** encontraMenoresCaminhos(grafo_t* grafo)
 {
-    int i;
-	static uint32_t tamMenorCaminho = UINT32_MAX;
-	menorcaminho_t* menor = malloc(sizeof(menorcaminho_t));
-	menor->menorpeso = INT32_MAX;
-	
+    int i, count;
+
+	//Armazena o peso do menor caminho
+	int pesoMenorCaminho = IMPOSSIVEL - 1;
+
+	//Vetor para armazenar os ponteiros caminho_t*
+	caminho_t** vetCaminhos = (caminho_t**) malloc(LIMITE_DE_CAMINHOS * sizeof(caminho_t*));
+
+	//Contagem de caminhos+
+	count = 0;
+
+	//Percorre todos os vértices
 	for(i = INDICE_INICIAL; i<grafo->countVertices;i++)
 	{
 		//Encontra as tarefas pai, ou seja, que não possuem nenhuma dependência pois ninguém aponta para elas
 		if(grafo->tarefas[i].ehPai == True)
 		{
-			
 			caminho_t* caminho = dijkstra(grafo, i);
-			if (menor->menorpeso > caminho->peso)
+
+			if (caminho->peso < pesoMenorCaminho)
 			{
-				menor->menorpeso = caminho->peso;
-				menor->paimenor = i;
-				menor->menorcaminho = dijkstra(grafo, menor->paimenor);
+				count = 0;
+				pesoMenorCaminho = caminho->peso;
+				vetCaminhos[count] = caminho;
+				count++;
 			}
-			printf("PAI -> v%d\n", i);
-			imprimeCaminho(caminho);
-			printf("\n\n");	
+			else if (caminho->peso == pesoMenorCaminho && count < LIMITE_DE_CAMINHOS)
+			{
+				vetCaminhos[count] = caminho;
+				count++;
+			}
+			else continue;
 		}
 	}
-	// Aqui imprime o menor camilho encontrado 
-	printf("O menor caminho e o saindo do v%d:\n" , menor->paimenor);
-	imprimeCaminho(menor->menorcaminho);
+	vetCaminhos[count] = NULL;
+
+	return vetCaminhos;
 }
+
+
+
+
+
+
 
 /*--------------------------------------------------------------------------*/
 /* ======== Algoritmo de Dijkstra ======== */
