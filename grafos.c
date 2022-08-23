@@ -213,7 +213,8 @@ int consertaPais(int** matriz, int tamanho)
 	}
 
 	while (numPais < MIN_PAIS) {
-		int coluna = rand()%tamanho;
+		int coluna = (rand()%tamanho);
+		if (coluna == 0) coluna = 1; // Se 0 for pai, o caminho é impossível
 		if (!pais[coluna]) { // Só aumenta o número de pais se a coluna sorteada já não for um pai
 			encheColuna(matriz, tamanho, coluna);
 			pais[coluna] = True;
