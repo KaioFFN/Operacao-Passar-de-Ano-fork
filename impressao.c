@@ -18,9 +18,9 @@ void imprimeMenoresCaminhos(grafo_t* grafo){
 
     int i;
 
-    printf("|----------------------------------------------------------------------------------------------------|\n");
-    printf("|                               Menores Caminhos ate Passar de Ano                                   |\n");
-    printf("|----------------------------------------------------------------------------------------------------|\n");
+    printf("|------------------------------------------------------------------------------|\n");
+    printf("|                         Menores Caminhos ate Passar de Ano                   |\n");
+    printf("|------------------------------------------------------------------------------|\n");
 
 	if(vetCaminhos[0] == NULL)
 	{
@@ -61,6 +61,7 @@ int imprimeMenu(int chave){
             printf("|================================|\n");
             printf("|  Chave -> ");
             scanf("%d", &chave);
+            system("clear");
             break;
         case 1:
             grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
@@ -70,13 +71,16 @@ int imprimeMenu(int chave){
             
             printf("|  Chave -> ");
             scanf("%d", &chave);
+            system("clear");
             break;
         case 2:
             imprimeMenoresCaminhos(grafo);
             printf("|  Chave -> ");
             scanf("%d", &chave);
+            system("clear");
             break;
         default:
+            printf("|  Chave Invalida - Tente novamente -> ");
             scanf("%d", &chave);
             break;
 
