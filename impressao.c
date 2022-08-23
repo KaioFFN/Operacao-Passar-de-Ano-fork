@@ -11,6 +11,11 @@
 /*Consts*/
 
 /*Functs*/
+// Um regex que limpa a tela, muitas vezes mais rápido que o system("clear") e funciona em qualquer plataforma
+void limpaTerm(){
+    printf("\033[1;1H\033[2J");
+}
+
 //Imprime os menores caminhos até o fim do ano
 void imprimeMenoresCaminhos(grafo_t* grafo){
     //Encontra os menores caminhos
@@ -61,7 +66,7 @@ int imprimeMenu(int chave){
             printf("|================================|\n");
             printf("|  Chave -> ");
             scanf("%d", &chave);
-            system("clear");
+            limpaTerm();
             break;
         case 1:
             grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
@@ -71,19 +76,18 @@ int imprimeMenu(int chave){
             
             printf("|  Chave -> ");
             scanf("%d", &chave);
-            system("clear");
+            limpaTerm();
             break;
         case 2:
             imprimeMenoresCaminhos(grafo);
             printf("|  Chave -> ");
             scanf("%d", &chave);
-            system("clear");
+            limpaTerm();
             break;
         default:
             printf("|  Chave Invalida - Tente novamente -> ");
             scanf("%d", &chave);
             break;
-
     }
     return chave;
 

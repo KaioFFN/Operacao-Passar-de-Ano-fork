@@ -493,14 +493,14 @@ void imprimeCaminho(caminho_t* caminho){
 	if (caminho->peso >= IMPOSSIVEL) printf("\nCaminho Impossivel\n");
 	else
 	{
-		printf("countVertices = %d\n", caminho->countVertices);
-		printf("Peso = %d\n", caminho->peso);
+		printf("Numero de tarefas feito = %d\n", caminho->countVertices);
+		printf("Tempo necessario = %d\n", caminho->peso);
 
 		
 		for(i =0 ;i<caminho->countVertices;i++)
 		{
 			if (caminho->vertices[i] == 0) {	
-				printf("v%d\n\n", caminho->vertices[i]);
+				printf("v%d\n", caminho->vertices[i]);
 			} else {
 				printf("v%d -> ", caminho->vertices[i]);
 			}

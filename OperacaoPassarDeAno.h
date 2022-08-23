@@ -88,6 +88,8 @@ static char subMaterias[NUM_MATERIAS][NUM_MATERIAS][MAX_PALAVRA] = {
 
 
 /*Funcoes*/
+// Um regex que limpa a tela, muitas vezes mais rápido que o system("clear") e funciona em qualquer plataforma
+void limpaTerm();
 
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v);
