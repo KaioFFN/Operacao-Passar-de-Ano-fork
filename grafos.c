@@ -97,9 +97,9 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 void imprimeGrafo(grafo_t* grafo) 
 {
 	int i;
-	printf("\033[1mAtividades (vertices):\033[0m %d.\n\033[1mDependencias (arestas):\033[0m %d. \n\n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
-	printf("\033[1mAtividades e atividades que dependem delas:\033[0m\n\n");
-	printf("A atividade de indice 0, escrita \033[93mem amarelo\033[0m, representa passar de ano.\033[0m\n\n");
+	printf("\x1b[1mAtividades (vertices):\x1b[0m %d.\n\x1b[1mDependencias (arestas):\x1b[0m %d. \n\n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
+	printf("\x1b[1mAtividades e atividades que dependem delas:\x1b[0m\n\n");
+	printf("A atividade de indice 0, escrita \x1b[93mem amarelo\x1b[0m, representa passar de ano.\x1b[0m\n\n");
 
 	for (i = 1; i < grafo->countVertices; i++)
 	{
