@@ -306,11 +306,6 @@ caminho_t** encontraMenoresCaminhos(grafo_t* grafo)
 }
 
 
-
-
-
-
-
 /*--------------------------------------------------------------------------*/
 /* ======== Algoritmo de Dijkstra ======== */
 /*--------------------------------------------------------------------------*/
@@ -497,10 +492,13 @@ void imprimeCaminho(caminho_t* caminho){
 
 		
 		for(i =0 ;i<caminho->countVertices;i++)
-			if (caminho->vertices[i] == 0) 
+		{
+			if (caminho->vertices[i] == 0) {	
 				printf("v%d\n\n", caminho->vertices[i]);
-			else
+			} else {
 				printf("v%d -> ", caminho->vertices[i]);
+			}
+		}
 	}
 
 }

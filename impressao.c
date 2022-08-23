@@ -43,9 +43,9 @@ void imprimeMenoresCaminhos(grafo_t* grafo){
 
 void imprimeThumb()
 {
-    printf("╔══════════════════════════════════════════════════════════════════════════════╗\n");
-    printf("║                           OPERAÇÃO PASSAR DE ANO                             ║\n");
-    printf("╚══════════════════════════════════════════════════════════════════════════════╝\n");
+    printf("|==============================================================================|\n");
+    printf("|                           OPERACAO PASSAR DE ANO                             |\n");
+    printf("|==============================================================================|\n");
 }
 
 //Imprime um menu e retorna a chave inserida
@@ -54,12 +54,12 @@ int imprimeMenu(int chave){
     {
         case 0:
             imprimeThumb();
-            printf("╔════════════════════════════════╗\n");
-            printf("║  1. Gerar tarefas/grafo        ║\n");
-            printf("║  2. Imprimir menores caminhos  ║\n");
-            printf("║  0. Sair                       ║\n");
-            printf("╚════════════════════════════════╝\n");
-            printf("╠  Chave -> ");
+            printf("|================================|\n");
+            printf("|  1. Gerar tarefas/grafo        |\n");
+            printf("|  2. Imprimir menores caminhos  |\n");
+            printf("|  0. Sair                       |\n");
+            printf("|================================|\n");
+            printf("|  Chave -> ");
             scanf("%d", &chave);
             break;
         case 1:
@@ -68,12 +68,12 @@ int imprimeMenu(int chave){
             imprimeGrafo(grafo);
             printf("\n\n");
             
-            printf("╠  Chave -> ");
+            printf("|  Chave -> ");
             scanf("%d", &chave);
             break;
         case 2:
             imprimeMenoresCaminhos(grafo);
-            printf("╠  Chave -> ");
+            printf("|  Chave -> ");
             scanf("%d", &chave);
             break;
         default:

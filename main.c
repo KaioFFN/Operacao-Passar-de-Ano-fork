@@ -11,15 +11,13 @@
 /*Consts*/
 #define SUCCESS 0
 
-
-
 /*Functs*/
 
 
 
 int main (int argc, char ** argv){
 	bool tmp;
-
+	
 	srand(time(NULL));
 
 	int chave = 0;
