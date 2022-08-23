@@ -13,6 +13,8 @@
 
 /*Functs*/
 
+// FALTA FAZER: Imprimir o nome da tarefa no imprimirCaminho em vez do número dela
+// FALTA FAZER: Função de liberar grafo (!!!!!!)
 
 int main (int argc, char ** argv){
 	// Declarações
@@ -27,6 +29,4 @@ int main (int argc, char ** argv){
 	}while (chave!=0);
 
 	return SUCCESS;
-
-	// FALTA FAZER: Checar se o número de conexões com o vértice 0 é apropriado (não pode ter um monte de vértice ligando nele, mas não pode ser impossível chegar nele)
 }
