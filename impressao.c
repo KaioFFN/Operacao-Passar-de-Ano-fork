@@ -59,6 +59,7 @@ int imprimeMenu(int chave){
             printf("\033[96m|================================|\033[0m\n");
             printf("\033[96m|\033[0m  \033[34m1.\033[0m Gerar tarefas/grafo        \033[96m|\033[0m\n");
             printf("\033[96m|\033[0m  \033[34m2.\033[0m Imprimir menores caminhos  \033[96m|\033[0m\n");
+            printf("\033[96m|\033[0m  \033[34m3.\033[0m Imprimir grafo             \033[96m|\033[0m\n");
             printf("\033[96m|\033[0m  \033[34m0.\033[0m Sair                       \033[96m|\033[0m\n");
             printf("\033[96m|================================|\033[0m\n");
             printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
@@ -70,13 +71,19 @@ int imprimeMenu(int chave){
             encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
             imprimeGrafo(grafo);
             printf("\n\n");
-            
             printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();
             break;
         case 2:
             imprimeMenoresCaminhos(grafo);
+            printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
+            scanf("%d", &chave);
+            limpaTerm();
+            break;
+        case 3:
+            imprimeGrafo(grafo);
+            printf("\n\n");
             printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();

@@ -15,6 +15,15 @@ Portanto, os vértices (tarefas) são contadas a partir do índice 1*/
 /*Qualquer valor maior que INT32_MAX/2 = 1073741823 será considerado INFINITO/IMPOSSÍVEL*/
 
 /*Functs*/
+//Retorna True se o nome de tarefas[indice] for igual ao nome de alguma outra tarefa em 'tarefas'.
+bool comparaNomes (tarefa_t *tarefas, int indice) {
+	for (int i=0; i<indice; i++) {
+		if (strcmp(tarefas[indice].nome, tarefas[i].nome) == 0) return True;
+	}
+
+	return False;
+}
+
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v) {
 	int i;
@@ -35,9 +44,11 @@ grafo_t* criaGrafo(int v) {
 		grafo->tarefas[i].cabecaArestas = NULL;
 		grafo->tarefas[i].ehPai = True;
 
-		strcpy(grafo->tarefas[i].nome, atividades[rand()%NUM_MATERIAS]);
-		strcat(grafo->tarefas[i].nome, " de ");
-		strcat(grafo->tarefas[i].nome, subMaterias[grafo->materia][rand()%NUM_MATERIAS]);
+		do {
+			strcpy(grafo->tarefas[i].nome, atividades[rand()%NUM_MATERIAS]);
+			strcat(grafo->tarefas[i].nome, " de ");
+			strcat(grafo->tarefas[i].nome, subMaterias[grafo->materia][rand()%NUM_MATERIAS]);
+		} while (comparaNomes(grafo->tarefas, i)); // Esse while randomiza o nome se ele for igual ao nome de outra tarefa, até ele não ser mais.
 	}
 
 
@@ -87,7 +98,8 @@ void imprimeGrafo(grafo_t* grafo)
 {
 	int i;
 	printf("\033[1mAtividades (vertices):\033[0m %d.\n\033[1mDependencias (arestas):\033[0m %d. \n\n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
-	printf("\033[1mAtividades e dependencias:\033[0m\n\n");
+	printf("\033[1mAtividades e atividades que dependem delas:\033[0m\n\n");
+	printf("A atividade de indice 0, escrita \033[93mem amarelo\033[0m, representa passar de ano.\033[0m\n\n");
 
 	for (i = 1; i < grafo->countVertices; i++)
 	{
