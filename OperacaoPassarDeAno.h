@@ -66,9 +66,9 @@ typedef struct grafo_s {
 
 //Estrutura usada para identificar um caminho possível
 typedef struct caminho_s{
-	int* vertices; //Armazena os vértices na ordem do caminho, ex: v0 -> v1 -> v2
+	int* vertices; // Armazena os vértices na ordem do caminho, ex: v0 -> v1 -> v2
 	int countVertices; // Quantidade de vértices no caminho
-	int peso; //Armazena o peso do caminho
+	int peso; // Armazena o peso do caminho
 }caminho_t;
 
 
@@ -164,7 +164,7 @@ caminho_t* extraiCaminho(grafo_t* grafo, int* distancia, int* precedencia, int v
 caminho_t* dijkstra(grafo_t* grafo, int s);
 
 //Imprime o caminho e seus atributos
-void imprimeCaminho(caminho_t* caminho);
+void imprimeCaminho(caminho_t* caminho, grafo_t* grafo);
 
 //Imprime os menores caminhos até o fim do ano
 void imprimeMenoresCaminhos(grafo_t* grafo);

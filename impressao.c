@@ -36,7 +36,7 @@ void imprimeMenoresCaminhos(grafo_t* grafo){
 		for(i=0;vetCaminhos[i] != NULL; i++)
 		{
 			printf("\033[96m--------------------------------------------------------\033[0m\n");
-			imprimeCaminho(vetCaminhos[i]);
+			imprimeCaminho(vetCaminhos[i], grafo);
 			printf("\033[96m--------------------------------------------------------\033[0m\n");
 		}
     

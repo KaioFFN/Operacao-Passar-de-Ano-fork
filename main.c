@@ -13,7 +13,6 @@
 
 /*Functs*/
 
-// FALTA FAZER: Imprimir o nome da tarefa no imprimirCaminho em vez do número dela
 // FALTA FAZER: Função de liberar grafo (!!!!!!)
 
 int main (int argc, char ** argv){
@@ -24,9 +23,9 @@ int main (int argc, char ** argv){
 	srand(time(NULL));
 
 	// Loop de menu
-	do{
+	do {
 		chave = imprimeMenu(chave);
-	}while (chave!=0);
+	} while (chave!=0);
 
 	return SUCCESS;
 }

@@ -496,7 +496,7 @@ caminho_t* dijkstra(grafo_t* grafo, int s){
 }
 
 //Imprime o caminho e seus atributos
-void imprimeCaminho(caminho_t* caminho){
+void imprimeCaminho(caminho_t* caminho, grafo_t* grafo){
 
 	int i;
 
@@ -510,9 +510,9 @@ void imprimeCaminho(caminho_t* caminho){
 		for(i =0 ;i<caminho->countVertices;i++)
 		{
 			if (caminho->vertices[i] == 0) {	
-				printf("v%d\n", caminho->vertices[i]);
+				printf("Passar de ano!\n");
 			} else {
-				printf("v%d -> ", caminho->vertices[i]);
+				printf("%s -> ", grafo->tarefas[caminho->vertices[i]].nome);
 			}
 		}
 	}
