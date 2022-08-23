@@ -86,16 +86,20 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 void imprimeGrafo(grafo_t* grafo) 
 {
 	int i;
-	printf("Atividades (vertices): %d. Dependencias (arestas): %d. \n\n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
-	printf("Atividades e dependencias:\n\n");
+	printf("\033[1mAtividades (vertices):\033[0m %d.\n\033[1mDependencias (arestas):\033[0m %d. \n\n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
+	printf("\033[1mAtividades e dependencias:\033[0m\n\n");
 
 	for (i = 1; i < grafo->countVertices; i++)
 	{
-		printf("%d - %s: ", i, grafo->tarefas[i].nome); //Imprime em qual aresta está
+		printf("\033[94m%d\033[0m - \033[4m%s\033[0m: ", i, grafo->tarefas[i].nome); //Imprime em qual aresta está
 		aresta_t* ad = grafo->tarefas[i].cabecaArestas; //Chama a cabeça da lista de adjacência
 		while (ad != NULL)
 		{
-			printf("%d (peso %d), ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
+			if(ad->vertice == 0) {
+				printf("\033[93m%d (peso %d)\033[0m, ", ad->vertice, ad->peso); //Imprime o vértice 0 em cor
+			} else {
+				printf("%d (peso %d), ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
+			}
 			ad = ad->prox;
 		}
 		printf("\n");
@@ -401,11 +405,10 @@ int verticeMenorDistancia(grafo_t* grafo, int * aberto, int* distancia){
 
 //A partir dos dados da função dijkstra, essa função extrai o caminho, peso e quantidade de vértices do vértice v até PASSAR_DE_ANO
 caminho_t* extraiCaminho(grafo_t* grafo, int* distancia, int* precedencia, int v, int s){
-
 	//Aloca a estrutura caminho
 	caminho_t* caminho = (caminho_t*)malloc(sizeof(caminho_t));
 	int *verticesCaminhoInverso;
-
+	
 	//Verifica se existe um caminho de v até PASSAR_DE_ANO
 	if(distancia[PASSAR_DE_ANO] < IMPOSSIVEL)
 	{	
@@ -432,8 +435,11 @@ caminho_t* extraiCaminho(grafo_t* grafo, int* distancia, int* precedencia, int v
 		caminho->vertices = (int*)malloc(count * sizeof(int));
 		
 		//Escreve o caminho na ordem correta
-		for(i = 0, j = count - 1; i<count; i++, j--)
-				caminho->vertices[i] = verticesCaminhoInverso[j];
+		for(i = 0, j = count - 1; i<count; i++, j--) {
+			caminho->vertices[i] = verticesCaminhoInverso[j];
+		}
+
+		free(verticesCaminhoInverso);
 	}
 	else
 	{
@@ -441,9 +447,6 @@ caminho_t* extraiCaminho(grafo_t* grafo, int* distancia, int* precedencia, int v
 		caminho->countVertices = IMPOSSIVEL;
 		caminho->vertices = NULL;
 	}
-
-	free(verticesCaminhoInverso);
-
 	return caminho;
 }
 
@@ -461,26 +464,21 @@ caminho_t* dijkstra(grafo_t* grafo, int s){
 	//Inicializa os valores de Dijkstra
 	inicializaDijkstra(grafo, distancia, precedencia, aberto, s);
 
-
 	while (existeAberto(grafo, aberto))
 	{
 		//Encontra o vértice de menor distância
 		int u = verticeMenorDistancia(grafo, aberto, distancia);
-		
 		aberto[u] = False;
-
+		
 		//Encontra a cabeça do vértice
 		aresta_t* ad = grafo->tarefas[u].cabecaArestas;
-
 		while(ad)
 		{
 			//Relaxa o vértice, se necessário
 			relaxaVertice(grafo, distancia, precedencia, u, ad->vertice);
 			ad = ad->prox;
 		}
-		
 	}
-
 
 	return extraiCaminho(grafo, distancia, precedencia, PASSAR_DE_ANO, s);
 }
@@ -493,8 +491,8 @@ void imprimeCaminho(caminho_t* caminho){
 	if (caminho->peso >= IMPOSSIVEL) printf("\nCaminho Impossivel\n");
 	else
 	{
-		printf("Numero de tarefas feito = %d\n", caminho->countVertices);
-		printf("Tempo necessario = %d\n", caminho->peso);
+		printf("Numero de tarefas feito: %d\n", caminho->countVertices);
+		printf("Tempo necessario: %d\n", caminho->peso);
 
 		
 		for(i =0 ;i<caminho->countVertices;i++)

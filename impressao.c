@@ -23,9 +23,9 @@ void imprimeMenoresCaminhos(grafo_t* grafo){
 
     int i;
 
-    printf("|------------------------------------------------------------------------------|\n");
-    printf("|                         Menores Caminhos ate Passar de Ano                   |\n");
-    printf("|------------------------------------------------------------------------------|\n");
+    printf("\033[96m|==============================================================================|\033[0m\n"); // Essas sequências de caracteres estranhas são códigos de escape ANSI, que mudam a cor dos caracteres impressos.
+    printf("\033[96m|\033[0m                      \033[33mMenores caminhos ate passar de ano\033[0m                      \033[96m|\033[0m\n");
+    printf("\033[96m|==============================================================================|\033[0m\n");
 
 	if(vetCaminhos[0] == NULL)
 	{
@@ -35,22 +35,19 @@ void imprimeMenoresCaminhos(grafo_t* grafo){
 	{
 		for(i=0;vetCaminhos[i] != NULL; i++)
 		{
-			printf("--------------------------------------------------------\n");
+			printf("\033[96m--------------------------------------------------------\033[0m\n");
 			imprimeCaminho(vetCaminhos[i]);
-			printf("--------------------------------------------------------\n");
+			printf("\033[96m--------------------------------------------------------\033[0m\n");
 		}
     
 	}
-
-    printf("\n\n");
-
 }
 
 void imprimeThumb()
 {
-    printf("|==============================================================================|\n");
-    printf("|                           OPERACAO PASSAR DE ANO                             |\n");
-    printf("|==============================================================================|\n");
+    printf("\033[96m|==============================================================================|\033[0m\n"); // Essas sequências de caracteres estranhas são códigos de escape ANSI, que mudam a cor dos caracteres impressos ou fazem eles estar sublinhados, em negrito, etc.
+    printf("\033[96m|\033[0m                           \033[33mOPERACAO PASSAR DE ANO\033[0m                             \033[96m|\033[0m\n");
+    printf("\033[96m|==============================================================================|\033[0m\n");
 }
 
 //Imprime um menu e retorna a chave inserida
@@ -59,12 +56,12 @@ int imprimeMenu(int chave){
     {
         case 0:
             imprimeThumb();
-            printf("|================================|\n");
-            printf("|  1. Gerar tarefas/grafo        |\n");
-            printf("|  2. Imprimir menores caminhos  |\n");
-            printf("|  0. Sair                       |\n");
-            printf("|================================|\n");
-            printf("|  Chave -> ");
+            printf("\033[96m|================================|\033[0m\n");
+            printf("\033[96m|\033[0m  \033[34m1.\033[0m Gerar tarefas/grafo        \033[96m|\033[0m\n");
+            printf("\033[96m|\033[0m  \033[34m2.\033[0m Imprimir menores caminhos  \033[96m|\033[0m\n");
+            printf("\033[96m|\033[0m  \033[34m0.\033[0m Sair                       \033[96m|\033[0m\n");
+            printf("\033[96m|================================|\033[0m\n");
+            printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();
             break;
@@ -74,18 +71,18 @@ int imprimeMenu(int chave){
             imprimeGrafo(grafo);
             printf("\n\n");
             
-            printf("|  Chave -> ");
+            printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();
             break;
         case 2:
             imprimeMenoresCaminhos(grafo);
-            printf("|  Chave -> ");
+            printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();
             break;
         default:
-            printf("|  Chave Invalida - Tente novamente -> ");
+            printf("\033[96m|\033[0m  Chave Invalida - Tente novamente -> ");
             scanf("%d", &chave);
             break;
     }
