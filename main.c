@@ -14,19 +14,18 @@
 /*Functs*/
 
 
-
 int main (int argc, char ** argv){
-	bool tmp;
-	
-	srand(time(NULL));
-
+	// Declarações
 	int chave = 0;
 
+	// Fazendo a seed pro rand()
+	srand(time(NULL));
+
+	// Loop de menu
 	do{
 		chave = imprimeMenu(chave);
 	}while (chave!=0);
 
-	
 	return SUCCESS;
 
 	// FALTA FAZER: Checar se o número de conexões com o vértice 0 é apropriado (não pode ter um monte de vértice ligando nele, mas não pode ser impossível chegar nele)

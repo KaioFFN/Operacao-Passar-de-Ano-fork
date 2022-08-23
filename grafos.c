@@ -25,6 +25,7 @@ grafo_t* criaGrafo(int v) {
 
 	grafo->countVertices = v; //Atualiza o número de vértices
  	grafo->countArestas = 0; //Atualiza o número de arestas
+	grafo->materia = rand()%NUM_MATERIAS;
 
 	//Alocação dos vértices e das adjacências
 	grafo->tarefas = (tarefa_t*)malloc(v * sizeof(tarefa_t)); 
@@ -33,6 +34,10 @@ grafo_t* criaGrafo(int v) {
 	{
 		grafo->tarefas[i].cabecaArestas = NULL;
 		grafo->tarefas[i].ehPai = True;
+
+		strcpy(grafo->tarefas[i].nome, atividades[rand()%NUM_MATERIAS]);
+		strcat(grafo->tarefas[i].nome, " de ");
+		strcat(grafo->tarefas[i].nome, subMaterias[grafo->materia][rand()%NUM_MATERIAS]);
 	}
 
 
@@ -81,20 +86,20 @@ bool criaAresta(grafo_t* grafo, int vi, int vf, int peso)
 void imprimeGrafo(grafo_t* grafo) 
 {
 	int i;
-	printf("Vertices: %d. Arestas: %d. \n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
+	printf("Atividades (vertices): %d. Dependencias (arestas): %d. \n\n", grafo->countVertices, grafo->countArestas); //imprime numero de vértice e arestas
+	printf("Atividades e dependencias:\n\n");
 
-	for (i = 0; i < grafo->countVertices; i++)
+	for (i = 1; i < grafo->countVertices; i++)
 	{
-		printf("v%d: ", i); //Imprimo em qual aresta estou
+		printf("%d - %s: ", i, grafo->tarefas[i].nome); //Imprime em qual aresta está
 		aresta_t* ad = grafo->tarefas[i].cabecaArestas; //Chama a cabeça da lista de adjacência
 		while (ad != NULL)
 		{
-			printf("v%d(%d) ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
+			printf("%d (peso %d), ", ad->vertice, ad->peso); //Imprime a adjacência e seu peso
 			ad = ad->prox;
 		}
 		printf("\n");
 	}
-
 }
 
 
@@ -256,7 +261,7 @@ void encheGrafo(grafo_t* grafo, int tamanho, int numFalhas, bool orientada)
     for (int i=0; i<tamanho; i++) {
         completaGrafo(grafo, tamanho, i, matFalhas);
     }
-    mat_imprime (matFalhas, tamanho, tamanho); // Imprime a matriz de falhas pra motivos de debug
+    //mat_imprime (matFalhas, tamanho, tamanho); // Imprime a matriz de falhas pra motivos de debug
 
     mat_libera (matFalhas, tamanho); // Libera a matriz de falhas
 }

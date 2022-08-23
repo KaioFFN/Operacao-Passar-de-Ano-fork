@@ -35,8 +35,11 @@
 #define TAM_GRAFO 9
 #define NUM_FALHAS 9 // É bom fazer NUM_FALHAS ser bem próximo de TAM_GRAFO, pra ter um núnero bom de vértices pais
 
+#define NUM_MATERIAS 5
+#define MAX_PALAVRA 16
 
-/*Types and structs*/
+
+/*Tipos e structs*/
 typedef int bool;
 
 //Armazena os vértices adjacentes
@@ -48,7 +51,7 @@ typedef struct aresta_s {
 
 //Armazena as tarefas (são os vértices)
 typedef struct tarefa_s {
-	char* nomeTarefa;
+	char nome[MAX_PALAVRA*2];
     bool ehPai;
 	aresta_t* cabecaArestas; 
 }tarefa_t;
@@ -57,6 +60,7 @@ typedef struct tarefa_s {
 typedef struct grafo_s {
 	int countVertices;
 	int countArestas;
+	int materia;
 	tarefa_t* tarefas;
 }grafo_t;
 
@@ -67,7 +71,24 @@ typedef struct caminho_s{
 	int peso; //Armazena o peso do caminho
 }caminho_t;
 
-/*Functs*/
+
+/*Declarando variáveis estáticas*/
+
+// Criando a matriz que guarda os nomes de atividades
+static char atividades[NUM_MATERIAS][MAX_PALAVRA] = {"Formulario", "Questionario", "Resumo", "Redacao", "Prova"};
+
+// Criando a matriz que guarda os nomes das submatérias
+static char subMaterias[NUM_MATERIAS][NUM_MATERIAS][MAX_PALAVRA] = {
+	{"gramatica", "romantismo", "ortografia", "prod. de texto", "literatura"}, // Port
+	{"matrizes", "sistemas", "algebra", "geometria", "probabilidade"}, // Mat
+	{"eletrostatica", "mecanica", "dinamica", "hidrostatica", "magnetismo"}, // Fis
+	{"grafos", "arvores", "hash", "ordenacao", "OOP"}, // AEDS
+	{"memoria", "processamento", "controle", "IO", "ling. maquina"} // OCS
+};
+
+
+/*Funcoes*/
+
 //Cria um grafo com v vértices e inicializa as adjacências como NULL
 grafo_t* criaGrafo(int v);
 
