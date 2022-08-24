@@ -518,3 +518,35 @@ void imprimeCaminho(caminho_t* caminho, grafo_t* grafo){
 	}
 
 }
+
+
+//Desaloca o grafo
+void liberaGrafo(grafo_t* grafo){
+	int i;
+	aresta_t* cabeca;
+	aresta_t* t;
+	//Libera Arestas
+	for(i = 0;i<grafo->countVertices;i++)
+	{
+		cabeca = grafo->tarefas[i].cabecaArestas;
+		while (cabeca != NULL)
+		{
+			t = cabeca->prox;
+			free(cabeca);
+			cabeca = t;
+		}
+	}
+	free(grafo->tarefas);
+	free(grafo);
+}
+
+//Libera o vetor caminho
+void liberaVetCaminho(caminho_t** vetCaminhos){
+	int i;
+	for(i = 0; vetCaminhos[i] != NULL; i++)
+	{
+		free(vetCaminhos[i]->vertices);
+		free(vetCaminhos[i]);
+	}
+	free(vetCaminhos);
+}

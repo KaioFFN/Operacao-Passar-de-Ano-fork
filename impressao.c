@@ -17,9 +17,8 @@ void limpaTerm(){
 }
 
 //Imprime os menores caminhos até o fim do ano
-void imprimeMenoresCaminhos(grafo_t* grafo){
-    //Encontra os menores caminhos
-    caminho_t** vetCaminhos = encontraMenoresCaminhos(grafo);
+void imprimeMenoresCaminhos(grafo_t* grafo, caminho_t** vetCaminhos){
+
 
     int i;
 
@@ -52,6 +51,10 @@ void imprimeThumb()
 
 //Imprime um menu e retorna a chave inserida
 int imprimeMenu(int chave){
+    //Cria o grafo inicial, enche e encontra os menores caminhos
+    grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
+    encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
+    caminho_t** vetCaminhos = encontraMenoresCaminhos(grafo); //Encontra os menores caminhos
     switch (chave)
     {
         case 0:
@@ -67,16 +70,19 @@ int imprimeMenu(int chave){
             limpaTerm();
             break;
         case 1:
+            liberaGrafo(grafo);
+            liberaVetCaminho(vetCaminhos);
             grafo_t* grafo = criaGrafo(TAM_GRAFO); // Faz um grafo de tamanho TAM_GRAFO+1
             encheGrafo(grafo, TAM_GRAFO+1, NUM_FALHAS, True);
             imprimeGrafo(grafo);
+            caminho_t** vetCaminhos = encontraMenoresCaminhos(grafo); //Encontra os menores caminhos
             printf("\n\n");
             printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();
             break;
         case 2:
-            imprimeMenoresCaminhos(grafo);
+            imprimeMenoresCaminhos(grafo, vetCaminhos);
             printf("\033[96m|\033[0m  \033[32mChave ->\033[0m ");
             scanf("%d", &chave);
             limpaTerm();

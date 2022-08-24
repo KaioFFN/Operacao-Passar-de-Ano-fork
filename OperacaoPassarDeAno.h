@@ -167,7 +167,13 @@ caminho_t* dijkstra(grafo_t* grafo, int s);
 void imprimeCaminho(caminho_t* caminho, grafo_t* grafo);
 
 //Imprime os menores caminhos até o fim do ano
-void imprimeMenoresCaminhos(grafo_t* grafo);
+void imprimeMenoresCaminhos(grafo_t* grafo, caminho_t** vetCaminhos);
 
 //Imprime um menu e retorna a chave inserida
 int imprimeMenu(int chave);
+
+//Desaloca o grafo
+void liberaGrafo(grafo_t* grafo);
+
+//Libera o vetor caminho
+void liberaVetCaminho(caminho_t** vetCaminhos);

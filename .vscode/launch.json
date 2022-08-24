@@ -7,7 +7,7 @@
       "request": "launch",
       "args": [],
       "stopAtEntry": false,
-      "externalConsole": true,
+      "externalConsole": false,
       "cwd": "/home/rafael/Desktop/Operacao-Passar-de-Ano",
       "program": "/home/rafael/Desktop/Operacao-Passar-de-Ano/grafo",
       "MIMode": "gdb",
