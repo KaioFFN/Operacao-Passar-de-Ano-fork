@@ -503,7 +503,7 @@ void imprimeCaminho(caminho_t* caminho, grafo_t* grafo){
 	if (caminho->peso >= IMPOSSIVEL) printf("\nCaminho Impossivel\n");
 	else
 	{
-		printf("Numero de tarefas feito: %d\n", caminho->countVertices);
+		printf("Numero de tarefas feito: %d\n", caminho->countVertices - 1); // o -1 é porque 'passar de ano' é um vértice também
 		printf("Tempo necessario: %d\n", caminho->peso);
 
 		

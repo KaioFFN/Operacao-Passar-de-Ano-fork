@@ -44,7 +44,7 @@ void imprimeMenoresCaminhos(grafo_t* grafo, caminho_t** vetCaminhos){
 
 void imprimeThumb()
 {
-    printf("\033[96m|==============================================================================|\033[0m\n"); // Essas sequências de caracteres estranhas são códigos de escape ANSI, que mudam a cor dos caracteres impressos ou fazem eles estar sublinhados, em negrito, etc.
+    printf("\033[96m|==============================================================================|\033[0m\n");
     printf("\033[96m|\033[0m                           \033[33mOPERACAO PASSAR DE ANO\033[0m                             \033[96m|\033[0m\n");
     printf("\033[96m|==============================================================================|\033[0m\n");
 }
