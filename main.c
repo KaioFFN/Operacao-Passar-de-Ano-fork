@@ -8,12 +8,7 @@
 /*Includes*/
 #include "OperacaoPassarDeAno.h"
 
-/*Consts*/
-#define SUCCESS 0
-
 /*Functs*/
-
-// FALTA FAZER: Função de liberar grafo (!!!!!!)
 
 int main (int argc, char ** argv){
 	// Declarações
@@ -27,5 +22,5 @@ int main (int argc, char ** argv){
 		chave = imprimeMenu(chave);
 	} while (chave!=0);
 
-	return SUCCESS;
+	return EXIT_SUCCESS;
 }
