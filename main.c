@@ -24,3 +24,10 @@ int main (int argc, char ** argv){
 
 	return EXIT_SUCCESS;
 }
+/**
+* Feito Por
+* Kaio Fernandes Ferreira Nunes 
+* Eduardo Santos Birchal
+* Rafael Eustaquio Pinto 
+* Gabrielle Maia De Andrade Souza
+/
